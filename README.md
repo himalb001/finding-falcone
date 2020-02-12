@@ -51,3 +51,6 @@ The webapp has 2 services
 * JSON with negative vehicle speed is treated as positive speed.
 * Some invalid json responses such as negative number of available vehicles are normalised to show 0.
 
+
+## Unit test image
+![Unit test image] (screenshot.png)
