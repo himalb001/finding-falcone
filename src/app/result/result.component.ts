@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./result.component.styl']
 })
 export class ResultComponent implements OnInit {
-
+  // Time taken
   timeTaken:number;
   planetFound:string;
 
 
   constructor(private stateManager:StateManagerService, private router:Router) {
       
-      // get planet found
+      // @note - planetFound can be null too!
       this.planetFound = this.stateManager.AlFalconePlanet;
 
       // Get destination list and calculate timetaken
@@ -33,7 +33,7 @@ export class ResultComponent implements OnInit {
       // Wait for any reset state change
       this.stateManager.stateChanges.subscribe(state=>{
         switch (state) {
-          // redirect view if state is cleared
+          // Redirect to console if state is cleared
           case StateActionType.STATE_CLEARED:
             this.redirectToPage("/console");
             break;
@@ -44,15 +44,25 @@ export class ResultComponent implements OnInit {
    }
 
   ngOnInit() {
+
   }
 
 
-
-  calculateTimeTaken(destinations: Map<string,string>){
+  /**
+   * 
+   * Given the destination map, this function will
+   * calculate time taken for shis to get to the planet
+   * 
+   * Ships are imagined to take off simultaneously
+   * 
+   * @param destinations Destination list
+   * 
+   */
+  calculateTimeTaken(destinations: Map<string,string>):number{
     let slowest = 0;
     
     for (const [planetName, vehicleName] of destinations) {
-
+      // Calculate only if vehicle exists
       if (vehicleName) {
 
         const planet = this.stateManager.planets.get(planetName);
@@ -68,6 +78,12 @@ export class ResultComponent implements OnInit {
   }
 
 
+  /**
+   * Start button clicked in UI
+   * 
+   * @description This function will change the state in statemanager
+   * All subscribed components will react automatically
+   */
   startButtonClicked(){
     this.stateManager.resetState();
   }
@@ -75,10 +91,11 @@ export class ResultComponent implements OnInit {
 
   /**
    * 
-   * @param endpoint Endpoint to redirect to
+   * @param endpoint Endpoint to redirect the page to 
    */
   redirectToPage(endpoint:string) {
     this.router.navigate([endpoint]);
   }
-
+  
+  
 }

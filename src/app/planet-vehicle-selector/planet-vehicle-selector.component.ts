@@ -10,17 +10,17 @@ import { Vehicle } from '../model/vehicle.model';
 })
 export class PlanetVehicleSelectorComponent implements OnInit {
 
-  // UI states
-
   // Planet dropdown visibility
   planetListVisible:boolean = false;
 
-  
+  // Selected plant and vehicle
   selectedPlanet: Planet = null;
   selectedVehicle: Vehicle = null;
 
+  // List of planets and vehicles
   planets: Map<string,Planet>;
   vehicles:Map<string, Vehicle>;
+
 
   constructor( private stateManager: StateManagerService) { 
 
@@ -28,8 +28,20 @@ export class PlanetVehicleSelectorComponent implements OnInit {
     this.planets = this.getPlanets();
     this.vehicles = this.getVehicles();
 
+    // Register for state changes
+    this.registerForStateChanges();
+
+  }
+
+
+  /**
+   * Register for appropriate changes required for
+   * the component
+   */
+  registerForStateChanges(){
+
     // Add listeners from stateManager
-    this.stateManager.stateChanges.subscribe((stateType)=>{
+    this.stateManager.stateChanges.subscribe((stateType) => {
       switch (stateType) {
         case StateActionType.STATE_CLEARED:
           this.removePlanet();
@@ -43,12 +55,12 @@ export class PlanetVehicleSelectorComponent implements OnInit {
           break;
       }
     })
-
-  }
-
-  ngOnInit() {
     
   }
+
+
+
+  ngOnInit() {}
 
   /**
    * This function is called when user selects a 
@@ -57,12 +69,13 @@ export class PlanetVehicleSelectorComponent implements OnInit {
    * @param planetName Planet name
    */
   planetValueChanged(planetName:string){
-    this.removePlanet(); // remove existing planet
+    // remove existing planet before adding
+    this.removePlanet();
     if(planetName != ""){
       this.addPlanet(planetName);
     }
 
-    // Close dropdown
+    // close planet dropdown list
     this.togglePlanetList();
 
   }
@@ -132,6 +145,7 @@ export class PlanetVehicleSelectorComponent implements OnInit {
    */
   removeVehicleFromPlanet(vehicleName:string) {
     if (this.selectedPlanet && vehicleName != "") {
+      
       this.stateManager.removeVehicleFromDestination(vehicleName,this.selectedPlanet.name);
       this.selectedVehicle = null;
     }

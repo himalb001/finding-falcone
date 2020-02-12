@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FooterBarComponent } from './footer-bar/footer-bar.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -13,7 +14,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        NavigationBarComponent
+        NavigationBarComponent,
+        FooterBarComponent
       ],
     }).compileComponents();
   }));

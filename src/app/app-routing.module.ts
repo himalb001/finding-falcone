@@ -6,11 +6,12 @@ import { ResultComponent } from './result/result.component';
 const routes: Routes = [
   { path: 'console', component: ConsoleComponent},
   { path: 'result', component: ResultComponent},
-  { path: '', redirectTo: "console", pathMatch: "full"}
+  { path: '', redirectTo: "console", pathMatch: "full"},
+  { path: "**", redirectTo: "console", pathMatch: "full"}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 

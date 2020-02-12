@@ -23,15 +23,16 @@ export class StateManagerService {
 
   private _stateChanges:BehaviorSubject<StateActionType>;
 
-  // // Store vehicles and planets
+  // Private variables so stateChange can be triggered
+  // in setters
   private _vehicles:Map<string,Vehicle>;
   private _planets:Map<string,Planet>;
-  
-  // Use getter/setter 
   private _alFalconePlanet:string;
 
+  // Token 
   token:string;
   
+  // Destination pair of planet and vehicle
   destination: Map<string,string>;
   
   
@@ -141,11 +142,17 @@ export class StateManagerService {
 
 
   
-  
+  /**
+   * Planet map
+   */
   public get planets() : Map<string,Planet> {
     return this._planets;
   }
   
+  /**
+   * Set planets
+   * @note State change is triggered by this setter
+   */
   public set planets(v : Map<string,Planet>) {
     this._planets = v;
     this._stateChanges.next(StateActionType.PLANETS_ADDED);
@@ -156,19 +163,27 @@ export class StateManagerService {
     return this._vehicles;
   }
   
+  /**
+  * Set vehicles
+  * @note State change is triggered by this setter
+  */
   public set vehicles(v: Map<string, Vehicle>) {
     this._vehicles = v;
     this._stateChanges.next(StateActionType.VEHICLES_ADDED);
   }
 
 
-
-  
+  /**
+   * Get the Al Falcone planet
+   */
   public get AlFalconePlanet() : string {
     return this._alFalconePlanet;
   }
 
-  
+  /**
+   * Set the al falcone planet 
+   * @note State change is triggered by this setter
+   */
   public set AlFalconePlanet(v : string) {
     this._alFalconePlanet = v;
     this._stateChanges.next(StateActionType.AL_FALCONE_PLANET_CHANGED);

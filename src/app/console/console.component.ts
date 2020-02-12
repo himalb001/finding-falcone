@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 
 
-
+/** API PATH CONSTANTS */
 const tokenpath = "token"
 const planetsRelativePath = "planets"
 const vehicleRelativePath = "vehicles"
@@ -71,12 +71,13 @@ export class ConsoleComponent implements OnInit {
     // At this stage, we only need to track 
     // DESTINATION_AMEMDED 
     this.stateManager.stateChanges.subscribe((state:StateActionType)=>{
-      
       switch (state) {
         case StateActionType.DESTINATION_AMENDED:
+          // Destination change means total time calculation
           this.checkDestinationStatus();
           break;
         case StateActionType.AL_FALCONE_PLANET_CHANGED:
+          // AL_FALCON_PLANET changed means result has been found
           this.redirectToPage("/result");
           default:
           break;
@@ -88,8 +89,8 @@ export class ConsoleComponent implements OnInit {
   /**
    * checkDestinationStatus
    * 
-   * Check if all destination contains planet and vehicles
-   * and updates the total time
+   * @description Check if all destination contains planet 
+   * and vehicles and updates the total time
    */
   checkDestinationStatus(){
     const destinations = this.stateManager.destination;
@@ -124,14 +125,13 @@ export class ConsoleComponent implements OnInit {
 
     this.totalTime = slowestShipTime;
 
-    // Validation checks
+    // Validation checks to enable form submission
     if(destinations.size >= 4 &&
-       hasVehicleForAllDestination){
+      hasVehicleForAllDestination){
       this.canSubmitForm = true;
     }else{
       this.canSubmitForm = false;
     }
-
 
   }
 
@@ -145,6 +145,7 @@ export class ConsoleComponent implements OnInit {
    * @returns Map<string,Planet> observable
    */
   getPlanets():Observable<Map<string, Planet>> {
+    
     return this.webService.getJSON(planetsRelativePath).pipe(
       map((res: any[]) => {
         
@@ -204,22 +205,27 @@ export class ConsoleComponent implements OnInit {
    */
   getToken(): Observable<string> {
 
+    // Specific HTTP header for token
     const httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json'
       })
     }
 
+
+    //Observable
     return this.webService.postJSON(tokenpath,httpOptions).pipe(
       map((res:any)=>{
         // Observable returns the token string only
         return res.token;
       })
     )
+    
   }
 
   /**
-   * Find falcone in selected destination using selected Vehicles
+   * Submit the list of selected planet and vehicle
+   * to the API endpoint and update the result
    */
   findFalcone(){
     this.canSubmitForm = false;
@@ -232,12 +238,14 @@ export class ConsoleComponent implements OnInit {
       vehicleArray.push(vehicleName);
     }
 
+    // Body according to the specification
     const postBody = {
       token: this.stateManager.token,
       planet_names: planetArray,
       vehicle_names: vehicleArray
     }
 
+    // Http Option
     const httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
@@ -245,21 +253,25 @@ export class ConsoleComponent implements OnInit {
       })
     }
     
+    // Post Request
     this.webService.postJSON(findFalconRelativePath, httpOptions, postBody).subscribe((res:any)=> {
+      
+      // Disabe button
       this.canSubmitForm = true;
-      // Error
+
+
       if (res.error) {
-        // We can retry getting token and post again
-        // For now, we'll just alert user
         this.tokenNotFoundError();
       }
 
-      // Planet name or NULL
+
+      
       let planetName:string = null;
       if (res.status == "success") {
         planetName = res.planet_name
       }
       
+      // @note - Planet name null means not found
       this.stateManager.AlFalconePlanet = planetName;
 
     });

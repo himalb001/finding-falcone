@@ -30,14 +30,11 @@
         // Planet option on top
         .planet-options
             position: relative
-            p.selected-destination
-                padding: 10px 0
-                border-bottom: 1px solid blue
             ul.dropdown
                 position: absolute
                 display flex
                 flex-direction: column
-                border 1px solid lightgray
+                border 1px solid $global-lightgray
                 z-index 100 // Bring it above everything
                 left: 0
                 right: 0 // full width
@@ -53,7 +50,7 @@
                 button
                     cursor: pointer
                     text-align: left
-                    border-top: 1px solid lightgray
+                    border-top: 1px solid $global-lightgray
                     &.selected, &.selected:disabled
                         background-color: darken(white,10%)
                 sub 

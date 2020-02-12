@@ -1,7 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 
 import { ResultComponent } from './result.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StateManagerService } from '../service/state-manager.service';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -10,7 +11,8 @@ describe('ResultComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ ResultComponent]
+      declarations: [ ResultComponent],
+      providers: [StateManagerService]
     })
     .compileComponents();
   }));
@@ -22,6 +24,14 @@ describe('ResultComponent', () => {
   });
 
   it('should create', () => {
+    const stateManager = getTestBed().get(StateManagerService);
+    
+    // Create a mock destination state.
+    // Else UI will redirect to /console
+    let destination = new Map<string,string>();
+    destination.set("random","random");
+    stateManager.destination = destination;
+
     expect(component).toBeTruthy();
   });
 });
