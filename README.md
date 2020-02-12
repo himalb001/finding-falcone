@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-##Building code to deploy to static file server
+## Building code to deploy to static file server
 Run `ng build` to build files for production. 
 
 ## Running unit tests
@@ -14,7 +14,7 @@ Run `ng build` to build files for production.
 Run `ng test` to execute the unit
 
 
-#Notes
+# Notes
 
 ## Programming languages
 * Typescript
@@ -22,7 +22,7 @@ Run `ng test` to execute the unit
 * PugJS for templating
 
 
-##Application architecture
+## Application architecture
 
 The webapp has 3 main component.
 
@@ -36,7 +36,7 @@ The webapp has 2 services
 * **Webservices** - A small wrapper on top of HttpClient for easier API handling.
 * **StateManagerService** - A tiny service to hold program data and uses observable to notify subscribers of state changes.
 
-##Technical
+## Technical
 
 * The project was written using Angular 8.
 * No additional JS library or CSS frameworks are used.
