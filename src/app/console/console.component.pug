@@ -1,0 +1,11 @@
+
+.console-outer
+    .console-inner
+        p.title Select planets you want to search in:
+        .location
+            .destination-selector(*ngFor="let selector of numberOfArmyAvailable")
+                fs-planet-vehicle-selector
+        
+        .results-outer
+            p(*ngIf="totalTime >0") Total time required to reach selected planets: {{totalTime}} hours
+            button.primary-button((click)="findFalcone()", [disabled]="!canSubmitForm") Find Falcone!

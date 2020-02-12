@@ -1,0 +1,32 @@
+.planet-vehicle-selector-outer
+    .planet-vehicle-selector-inner
+        .planet-options
+
+            button.selected-destination((click)="togglePlanetList()") 
+                .title(*ngIf="selectedPlanet") 
+                    p {{selectedPlanet.name}}
+                    sub {{selectedPlanet.distance}} megamiles away
+                .title(*ngIf="!selectedPlanet") 
+                    p Select a destination
+                    
+            ul.dropdown(*ngIf="planetListVisible")
+                li
+                    button( *ngFor = "let planet of planets | keyvalue", 
+                            (click)="planetValueChanged(planet.key)", 
+                            [disabled]="planet.value.inUse") {{planet.key}}
+
+        
+        ul.vehicle-options(*ngIf="selectedPlanet")
+            li.vehicle-option(*ngFor = "let vehicle of vehicles | keyvalue")
+                button( [disabled]="vehicle.value.totalNumber <= 0 || vehicle.value.maxDistance < selectedPlanet.distance", 
+                        [ngClass]="{'selected': selectedVehicle == vehicle.value}",
+                        (click)="vehicleValueChanged(vehicle.key)")
+
+                    p.title {{vehicle.value.name}} 
+                    sub Speed: {{vehicle.value.speed}} megamiles/hour
+                    sub Distance: {{vehicle.value.maxDistance}} megamiles
+
+                    //- These text can have alert
+                    sub([ngClass]="{'alert': vehicle.value.totalNumber <= 0}") {{vehicle.value.totalNumber? vehicle.value.totalNumber : "None" }} available
+                    sub.notify(*ngIf="vehicle.value.maxDistance >= selectedPlanet.distance") Time to reach: {{selectedPlanet.distance / vehicle.value.speed}} hours
+                    sub.alert(*ngIf="vehicle.value.maxDistance < selectedPlanet.distance") Planet is too far for the vehicle

@@ -1,0 +1,63 @@
+@require "../../stylesheets/variables"
+
+.planet-vehicle-selector-outer
+    border: 1px solid $global-lightgray
+    padding: 5px;
+    border-radius: 10px;
+    .planet-vehicle-selector-inner
+        width: 100%;
+        height: 100%
+        display flex
+        flex-direction column
+        
+        // Default Button UI for the view
+        button
+            width 100%
+            padding: 10px 0
+            background-color: white
+            border none
+            outline: none
+            transition: 250ms ease-in background-color
+            cursor: pointer
+            font-size: $medium-font-size;
+            color: black;
+            &:hover, &:focus
+                background-color: darken(white,2%)
+            &:disabled
+                color: gray
+
+
+        // Planet option on top
+        .planet-options
+            position: relative
+            p.selected-destination
+                padding: 10px 0
+                border-bottom: 1px solid blue
+            ul.dropdown
+                position: absolute
+                display flex
+                flex-direction: column
+                border 1px solid lightgray
+                z-index 100 // Bring it above everything
+                left: 0
+                right: 0 // full width
+                li
+                    background-color: white
+                    width 100%
+
+
+        .vehicle-options
+            display: flex
+            flex-direction: column
+            .vehicle-option
+                button
+                    cursor: pointer
+                    text-align: left
+                    border-top: 1px solid lightgray
+                    &.selected, &.selected:disabled
+                        background-color: darken(white,10%)
+                sub 
+                    font-size: 12px
+                    display: block
+
+            

@@ -1,0 +1,12 @@
+.result-component-outer
+    .result-component-inner
+        .planetFound(*ngIf="planetFound")
+            p.result-title Success! Congratulations on Finding Falcone. King Shan is mighty pleased.
+            
+            br
+            p.time Time taken: {{timeTaken}} hours
+            p.planet Planet found: {{planetFound}}
+        .planetNotFound(*ngIf="!planetFound")
+            p.result-title Oh no! Al Falcone was not found. Please try again.
+        br
+        button.primary-button((click)="startButtonClicked()") Start again

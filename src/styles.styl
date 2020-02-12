@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+
+@require "stylesheets/reset"
+@require "stylesheets/variables"
+
+// Global style
+
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+html,body{
+    height: 100%;
+}
+
+
+// Colour for different types of notifications used
+
+.notify
+    color: $global-primary-color;
+
+.alert
+    color: $global-alert-color;
+
+
+button.primary-button
+    width: 90%
+    max-width: 300px
+    height: 50px
+    margin: 0 auto
+    display block
+    border-radius 5px
+    background-color: $global-primary-color;
+    color: white
+    font-size: $medium-font-size;
+    margin-top: 10px
+    cursor pointer
+    &:disabled
+        background-color: $global-lightgray;
+        color: darkgray
+        cursor auto
